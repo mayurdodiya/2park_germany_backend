@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Booking Confirmation PDF</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 40px;
+        color: #000;
+      }
+      .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 710px;
+      }
+      .footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .logo {
+        height: 60px;
+      }
+      .company-address {
+        text-align: right;
+      }
+      h2 {
+        margin-top: 40px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid #000;
+      }
+      th,
+      td {
+        padding: 8px;
+        text-align: left;
+      }
+      .highlight {
+        background-color: #ffecb3;
+        font-weight: bold;
+      }
+      .section-title {
+        font-weight: bold;
+        margin-top: 30px;
+        font-size: 16px;
+      }
+      .footer-legal {
+        font-size: 10px;
+        color: #444;
+        margin-top: 40px;
+      }
+      .footer-legal u {
+        color: #000;
+      }
+
+      .footer-legal {
+        color: #cfcfcf;
+      }
+
+      .signature{
+          margin-top: 80px;
+      }
+
+      .page-footer {
+        position: fixed;
+        bottom: 10px;
+        left: 40px;
+        right: 40px;
+        background-color: #fff;
+        font-size: 10px;
+        /* border-top: 1px solid #000; */
+        padding-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Header -->
+    <div>
+         <img src="${pdfObj?.logo}" alt="2Park Logo" class="logo" style="float: right; width: 92px; height:35px"/><br />
+    <div class="header">
+      <div>
+        <p>
+          <strong>${pdfObj?.name} ${pdfObj?.surname}</strong><br />
+          ${pdfObj?.address}<br />
+          ${pdfObj?.zip} ${pdfObj?.town}
+        </p>
+      </div>
+      <div class="company-address">
+        <!-- <img src="https://i.imgur.com/WTJquNZ.png" alt="2Park Logo" class="logo"><br> -->
+        <strong>2Park GmbH</strong><br />
+        Alsterufer 20<br />
+        20354 Hamburg
+      </div>
+    </div>
+
+    <!-- Title and Meta Info -->
+    <h2>Rechnung <strong>Stellplatzbuchung</strong></h2>
+    <p>
+      Rechnungsnummer: <strong>${pdfObj?.invoiceNumber}</strong><br />
+      Rechnungsdatum: <strong>${pdfObj?.currentDate}</strong>
+    </p>
+
+    <!-- Description Section -->
+    <div class="section-title">Leistungsbeschreibung</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Position</th>
+          <th>Beschreibung</th>
+          <th>Leistungszeitraum</th>
+          <th>Betrag netto</th>
+          <th>19 % MwSt</th>
+          <th>Betrag brutto</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>${pdfObj?.parkingLotName}</td>
+          <td>
+            ${pdfObj?.startTime} <br />
+            ${pdfObj?.endTime}
+          </td>
+          <td class="highlight">${pdfObj?.netAmount} €</td>
+          <td class="highlight">${pdfObj?.charge19} €</td>
+          <td class="highlight">${pdfObj?.totalAmountPaid} €</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p><strong>Gesamtrechnungsbetrag (brutto):</strong> <span class="highlight">${pdfObj?.totalAmountPaid} €</span></p>
+
+    <!-- Payment Info -->
+    <div class="section-title">Zahlungsinformationen</div>
+    <table>
+      <thead>
+        <tr>
+          <th>Datum</th>
+          <th>Art der Transaktion</th>
+          <th>Betrag</th>
+          <th>Zahlungsmittel</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>${pdfObj?.currentDate}</td>
+          <td>Zahlung</td>
+          <td class="highlight">${pdfObj?.totalAmountPaid} €</td>
+          <td>${pdfObj?.paymentMethod}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Signature -->
+    <p class="signature" style="font-size: 18px;">
+      Mit freundlichen Grüßen,<br /><br />
+      <strong>2Park GmbH</strong>
+    </p>
+    <div class="page-footer">
+      <div class="footer-legal" style="text-align: center;">
+        <hr style="margin-bottom: 8px" />
+        2Park GmbH | Alsterufer 20 | 20354 Hamburg | Tel: +49 (0) 40 609411 53 | E-Mail: info@2-park.de | Amtsgericht Hamburg<br />
+        HR-Nr: 186205 | USt-ID: DE 367313617 | Steuer-Nr.: 42/767/03132 | Geschäftsführer: Yusuf Celik | Raiffeisenbank Rosenstein eG<br />
+        Konto: 0055973000 | BLZ: 61361722 | IBAN: DE48 6130 1722 0055 9730 00 | BIC: GENODES1HEU
+      </div>
+    </div>
+  </body>
+</html>
